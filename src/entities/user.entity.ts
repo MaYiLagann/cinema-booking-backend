@@ -3,6 +3,7 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
+  Index,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -13,9 +14,11 @@ export class User {
   id: number;
 
   @Column()
+  @Index()
   email: string;
 
   @Column()
+  @Index()
   password: string;
 
   @CreateDateColumn({ type: 'timestamp' })

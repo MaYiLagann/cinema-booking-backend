@@ -12,7 +12,7 @@ export class UserController {
     private userService: UserService,
   ) {}
 
-  @Post()
+  @Post('register')
   async register(
     @Body() body: UserRegisterRequestModel,
     @Res({ passthrough: true }) res: Response,
@@ -27,6 +27,8 @@ export class UserController {
     const user = this.userService.create();
     user.email = body.email;
     user.password = await hash(body.password, salt);
+
+    await this.userService.update(user);
 
     return user.id;
   }

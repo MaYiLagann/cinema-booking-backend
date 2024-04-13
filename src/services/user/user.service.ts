@@ -22,7 +22,11 @@ export class UserService {
     return this.userRepository.create();
   }
 
-  async remove(entity: User): Promise<void> {
-    await this.userRepository.softRemove(entity);
+  async update(entity: User): Promise<User> {
+    return this.userRepository.save(entity);
+  }
+
+  async remove(entity: User): Promise<User> {
+    return this.userRepository.softRemove(entity);
   }
 }

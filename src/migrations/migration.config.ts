@@ -11,7 +11,7 @@ const dataSourceOptions: DataSourceOptions = {
   password: process.env['DATABASE_PASSWORD'],
   database: process.env['DATABASE_DATABASE_NAME'],
   entities: ['src/entities/**.entity{.ts,.js}'],
-  migrations: [],
+  migrations: ['src/migrations/**-migration{.ts,.js}'],
   migrationsTableName: process.env['DATABASE_TABLE_MIGRATION'],
 };
 export const dataSource = new DataSource(dataSourceOptions);

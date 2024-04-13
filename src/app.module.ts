@@ -1,9 +1,10 @@
+import * as process from 'process';
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import * as process from 'process';
+import { User } from './entities/user.entity';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import * as process from 'process';
       username: process.env['DATABASE_USERNAME'],
       password: process.env['DATABASE_PASSWORD'],
       database: process.env['DATABASE_DATABASE'],
-      entities: [],
+      entities: [User],
       synchronize: true,
     }),
   ],

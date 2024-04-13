@@ -18,6 +18,10 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
+  create(): User {
+    return this.userRepository.create();
+  }
+
   async remove(entity: User): Promise<void> {
     await this.userRepository.softRemove(entity);
   }

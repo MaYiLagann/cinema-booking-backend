@@ -18,7 +18,7 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
-  async remove(id: number): Promise<void> {
-    await this.userRepository.delete(id);
+  async remove(entity: User): Promise<void> {
+    await this.userRepository.softRemove(entity);
   }
 }

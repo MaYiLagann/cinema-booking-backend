@@ -13,7 +13,6 @@ export class DatabaseModule {
       password: process.env['DATABASE_PASSWORD'],
       database: process.env['DATABASE_DATABASE_NAME'],
       entities: [User],
-      synchronize: true,
       migrations: [],
       migrationsTableName: process.env['DATABASE_TABLE_MIGRATION'],
     });

@@ -11,9 +11,11 @@ export class DatabaseModule {
       port: Number(process.env['DATABASE_PORT']) || 3306,
       username: process.env['DATABASE_USERNAME'],
       password: process.env['DATABASE_PASSWORD'],
-      database: process.env['DATABASE_DATABASE'],
+      database: process.env['DATABASE_DATABASE_NAME'],
       entities: [User],
       synchronize: true,
+      migrations: [],
+      migrationsTableName: process.env['DATABASE_TABLE_MIGRATION'],
     });
   }
 }

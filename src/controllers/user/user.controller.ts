@@ -4,12 +4,17 @@ import { UserRegisterRequestModel } from '../../models/user/user-register-reques
 import { Response } from 'express';
 import { hash } from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { UserSignInRequestModel } from '../../models/user/user-sign-in-request.model';
+import { JwtService } from '@nestjs/jwt';
+import { UserSignInResponseModel } from '../../models/user/user-sign-in-response.model';
+import { UserTokenPayload } from '../../models/user/user-token-payload';
 
 @Controller('user')
 export class UserController {
   constructor(
     private configService: ConfigService,
     private userService: UserService,
+    private jwtService: JwtService,
   ) {}
 
   @Post('register')
@@ -31,5 +36,35 @@ export class UserController {
     await this.userService.update(user);
 
     return user.id;
+  }
+
+  @Post('sign-in')
+  async signIn(
+    @Body() body: UserSignInRequestModel,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<UserSignInResponseModel> {
+    const response = new UserSignInResponseModel();
+
+    if (!body.email || !body.password) {
+      res.status(HttpStatus.BAD_REQUEST);
+      return response;
+    }
+
+    const salt = this.configService.get<string>('user.password_salt');
+    const user = await this.userService.getByEmailAndPassword(
+      body.email,
+      await hash(body.password, salt),
+    );
+
+    if (!user) {
+      res.status(HttpStatus.UNAUTHORIZED);
+      return response;
+    }
+
+    const payload = new UserTokenPayload();
+    payload.email = user.email;
+
+    response.token = await this.jwtService.signAsync(payload);
+    return response;
   }
 }

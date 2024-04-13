@@ -18,6 +18,16 @@ export class UserService {
     return this.userRepository.findOneBy({ id });
   }
 
+  async getByEmailAndPassword(
+    email: string,
+    password: string,
+  ): Promise<User | null> {
+    return this.userRepository.findOneBy({
+      email: email,
+      password: password,
+    });
+  }
+
   create(): User {
     return this.userRepository.create();
   }

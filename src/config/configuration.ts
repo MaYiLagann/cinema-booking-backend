@@ -12,5 +12,8 @@ export function Configuration() {
       database: process.env['DATABASE_DATABASE_NAME'],
       migrationsTableName: process.env['DATABASE_TABLE_MIGRATION'],
     },
+    user: {
+      password_salt: process.env['USER_PASSWORD_SALT'],
+    },
   };
 }

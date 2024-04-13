@@ -1,5 +1,3 @@
-import process from 'process';
-
 export function Configuration() {
   return {
     app: {

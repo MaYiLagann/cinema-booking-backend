@@ -7,6 +7,7 @@ import { ServiceModule } from './services/service.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
+      isGlobal: true,
       load: [Configuration],
     }),
     DatabaseModule.forRootAsync(),

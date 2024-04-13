@@ -14,6 +14,7 @@ export function Configuration() {
     },
     user: {
       password_salt: process.env['USER_PASSWORD_SALT'],
+      jwt_secret: process.env['USER_JWT_SECRET'],
     },
   };
 }

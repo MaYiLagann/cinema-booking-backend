@@ -8,6 +8,7 @@ import { UserSignInRequestModel } from '../../models/user/user-sign-in-request.m
 import { JwtService } from '@nestjs/jwt';
 import { UserSignInResponseModel } from '../../models/user/user-sign-in-response.model';
 import { UserTokenPayload } from '../../models/user/user-token-payload';
+import { toPlainObject } from 'lodash';
 
 @Controller('user')
 export class UserController {
@@ -64,7 +65,7 @@ export class UserController {
     const payload = new UserTokenPayload();
     payload.email = user.email;
 
-    response.token = await this.jwtService.signAsync(payload);
+    response.token = await this.jwtService.signAsync(toPlainObject(payload));
     return response;
   }
 }

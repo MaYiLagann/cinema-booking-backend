@@ -61,7 +61,7 @@ export class UserController {
     );
 
     if (!user) {
-      res.status(HttpStatus.UNAUTHORIZED);
+      res.status(HttpStatus.BAD_REQUEST);
       return response;
     }
 

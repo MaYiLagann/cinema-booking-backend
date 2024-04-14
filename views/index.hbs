@@ -64,7 +64,7 @@
   function setCookie(name, value, lifetime) {
     const d = new Date();
     d.setTime(d.getTime() + lifetime);
-    let expires = 'expires=' + d.toUTCString();
+    const expires = 'expires=' + d.toUTCString();
     document.cookie = name + '=' + value + ';' + expires + ';path=/';
   }
 </script>

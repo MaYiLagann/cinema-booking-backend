@@ -16,4 +16,11 @@ export class AppController {
   signUp() {
     return {};
   }
+
+  @Public()
+  @Get('booking')
+  @Render('booking')
+  booking() {
+    return {};
+  }
 }

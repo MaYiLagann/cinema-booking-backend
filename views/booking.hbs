@@ -26,7 +26,7 @@
         {{#each list}}
           <div class="col-1 mb-2">
             {{#if this.is_empty}}
-              <button onclick="onClick('{{this.seat_name}}', {{this.cinema_id}}, {{this.seat_id}})" type="button"
+              <button onclick="onTicket('{{this.seat_name}}', {{this.cinema_id}}, {{this.seat_id}})" type="button"
                       class="btn btn-primary w-100 my-1">{{seat_name}}</button>
             {{else}}
               <button type="button" class="btn btn-secondary w-100 my-1" disabled>{{seat_name}}</button>
@@ -36,10 +36,21 @@
       </div>
     </div>
   </div>
+
+  <p>
+    <a href="#" onclick="onSignOut(event)">Sign Out</a>
+  </p>
 </div>
 
 <script>
-  async function onClick(tname, cid, sid) {
+  async function onTicket(tname, cid, sid) {
+    const token = getCookie('token');
+    if (!token) {
+      alert('Please sign in first');
+      location.href = '/';
+      return;
+    }
+
     if (!confirm(`Are you sure reserve ${tname} seat?`)) return;
 
     const res = await fetch('/cinema/ticket', {
@@ -48,7 +59,7 @@
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${getCookie('token')}`,
+        'Authorization': `Bearer ${token}`,
       },
       redirect: 'manual',
       body: JSON.stringify({
@@ -64,6 +75,22 @@
     } else {
       alert(`Failed to reserve ticket ${tname}`);
     }
+  }
+
+  function onSignOut(e) {
+    e.preventDefault();
+
+    if (!confirm(`Sign Out`)) return;
+
+    delCookie('token');
+
+    location.href = '/';
+  }
+
+  function delCookie(name) {
+    const d = new Date(0);
+    const expires = 'expires=' + d.toUTCString();
+    document.cookie = name + '=;' + expires + ';path=/';
   }
 
   function getCookie(cname) {

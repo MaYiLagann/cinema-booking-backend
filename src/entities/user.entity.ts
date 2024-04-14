@@ -5,16 +5,17 @@ import {
   Entity,
   Index,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
+@Unique(['email'])
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
-  @Index()
   email: string;
 
   @Column()

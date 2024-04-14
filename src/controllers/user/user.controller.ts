@@ -66,6 +66,7 @@ export class UserController {
     }
 
     const payload = new UserTokenPayload();
+    payload.id = user.id;
     payload.email = user.email;
 
     response.token = await this.jwtService.signAsync(toPlainObject(payload));

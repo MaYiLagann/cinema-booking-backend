@@ -5,6 +5,7 @@ import { AuthenticationModule } from './authentication.module';
 import { DatabaseModule } from './database.module';
 import { ServiceModule } from './services/service.module';
 import { ControllerModule } from './controllers/controller.module';
+import { GuardModule } from './guards/guard.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ControllerModule } from './controllers/controller.module';
     DatabaseModule.forRootAsync(),
     ServiceModule,
     ControllerModule,
+    GuardModule,
   ],
 })
 export class AppModule {}

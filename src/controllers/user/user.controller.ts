@@ -9,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserSignInResponseModel } from '../../models/user/user-sign-in-response.model';
 import { UserTokenPayload } from '../../models/user/user-token-payload';
 import { toPlainObject } from 'lodash';
+import { Public } from '../../decorators/public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -18,6 +19,7 @@ export class UserController {
     private jwtService: JwtService,
   ) {}
 
+  @Public()
   @Post('register')
   async register(
     @Body() body: UserRegisterRequestModel,
@@ -39,6 +41,7 @@ export class UserController {
     return user.id;
   }
 
+  @Public()
   @Post('sign-in')
   async signIn(
     @Body() body: UserSignInRequestModel,

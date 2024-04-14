@@ -1,7 +1,7 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class CreateCinemaTicket1713072141073 implements MigrationInterface {
-  name = 'CreateCinemaTicket1713072141073';
+export class CreateCinemaTicket1713072670600 implements MigrationInterface {
+  name = 'CreateCinemaTicket1713072670600';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`CREATE TABLE \`cinema_ticket\`
@@ -15,6 +15,7 @@ export class CreateCinemaTicket1713072141073 implements MigrationInterface {
                                  \`user_id\`    int NULL,
                                  INDEX          \`IDX_7bcfe79d8b4753444271087249\` (\`cinema_id\`),
                                  INDEX          \`IDX_81f1d49bc4f25ae1a76109fc5f\` (\`seat_id\`),
+                                 UNIQUE INDEX \`IDX_a84b9e385a287fa15f428ed496\` (\`cinema_id\`, \`seat_id\`),
                                  UNIQUE INDEX \`REL_69023a1dcb6ab24f153f7ab701\` (\`user_id\`),
                                  PRIMARY KEY (\`id\`)
                              ) ENGINE=InnoDB`);
@@ -28,6 +29,9 @@ export class CreateCinemaTicket1713072141073 implements MigrationInterface {
     );
     await queryRunner.query(
       `DROP INDEX \`REL_69023a1dcb6ab24f153f7ab701\` ON \`cinema_ticket\``,
+    );
+    await queryRunner.query(
+      `DROP INDEX \`IDX_a84b9e385a287fa15f428ed496\` ON \`cinema_ticket\``,
     );
     await queryRunner.query(
       `DROP INDEX \`IDX_81f1d49bc4f25ae1a76109fc5f\` ON \`cinema_ticket\``,

@@ -7,11 +7,13 @@ import {
   JoinColumn,
   OneToOne,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
+@Unique(['cinema_id', 'seat_id'])
 export class CinemaTicket {
   @PrimaryGeneratedColumn()
   id: number;

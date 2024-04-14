@@ -8,7 +8,6 @@ import {
   Res,
 } from '@nestjs/common';
 import { CinemaListResponseModel } from '../../models/cinema/cinema-list-response.model';
-import { Public } from '../../decorators/public.decorator';
 import { ConfigCinemaSeatList } from '../../config/config-cinema-seat-list';
 import { CinemaTicketService } from '../../services/cinema-ticket/cinema-ticket.service';
 import { CinemaTicketRequestModel } from '../../models/cinema/cinema-ticket-request.model';
@@ -22,7 +21,6 @@ import { UserTokenPayload } from '../../models/user/user-token-payload';
 export class CinemaController {
   constructor(private cinemaTicketService: CinemaTicketService) {}
 
-  @Public()
   @Get('list')
   async list(): Promise<CinemaListResponseModel> {
     const tickets = await this.cinemaTicketService.getAll();
@@ -38,7 +36,6 @@ export class CinemaController {
     return response;
   }
 
-  @Public()
   @Post('ticket')
   async ticket(
     @Body() body: CinemaTicketRequestModel,

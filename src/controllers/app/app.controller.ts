@@ -9,4 +9,11 @@ export class AppController {
   root() {
     return {};
   }
+
+  @Public()
+  @Get('sign-up')
+  @Render('sign-up')
+  signUp() {
+    return {};
+  }
 }

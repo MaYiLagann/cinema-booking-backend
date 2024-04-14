@@ -19,11 +19,11 @@
     <div class="card-body">
       <div class="form-group">
         <label for="inputEmail">Email Address</label>
-        <input id="inputEmail" type="email" class="form-control" autofocus>
+        <input id="inputEmail" type="email" class="form-control" autofocus required>
       </div>
       <div class="form-group">
         <label for="inputPassword">Password</label>
-        <input id="inputPassword" type="password" class="form-control" autofocus>
+        <input id="inputPassword" type="password" class="form-control" required>
       </div>
       <hr>
       <div class="text-right">
@@ -33,5 +33,41 @@
     </div>
   </form>
 </div>
+
+<script>
+  document.getElementById('formSignUp').onsubmit = async function(e) {
+    e.preventDefault();
+
+    const res = await fetch('/user/register', {
+      method: 'POST',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      redirect: 'manual',
+      body: JSON.stringify({
+        email: document.getElementById('inputEmail').value,
+        password: document.getElementById('inputPassword').value,
+      }),
+    });
+
+    if (res.ok) {
+      setCookie('token', (await res.json())['token'], 86400000)
+      alert('Succeeded to sign-up');
+
+      location.href = '/';
+    } else {
+      alert('Failed to sign-up');
+    }
+  };
+
+  function setCookie(name, value, lifetime) {
+    const d = new Date();
+    d.setTime(d.getTime() + lifetime);
+    let expires = 'expires=' + d.toUTCString();
+    document.cookie = name + '=' + value + ';' + expires + ';path=/';
+  }
+</script>
 </body>
 </html>

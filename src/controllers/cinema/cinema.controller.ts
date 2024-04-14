@@ -32,7 +32,7 @@ export class CinemaController {
       cinema_id: seat.cinema_id,
       seat_id: seat.seat_id,
       is_empty: !tickets.some(
-        (x) => x.cinema_id === seat.cinema_id && x.seat_id && seat.seat_id,
+        (x) => x.cinema_id === seat.cinema_id && x.seat_id === seat.seat_id,
       ),
     }));
     return response;

@@ -2,6 +2,7 @@ import { DynamicModule, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './entities/user.entity';
+import { CinemaTicket } from './entities/cinema-ticket.entity';
 
 @Module({})
 export class DatabaseModule {
@@ -15,7 +16,7 @@ export class DatabaseModule {
         username: config.get<string>('database.username'),
         password: config.get<string>('database.password'),
         database: config.get<string>('database.database'),
-        entities: [User],
+        entities: [User, CinemaTicket],
         migrations: [],
         migrationsTableName: config.get<string>('database.migrationsTableName'),
       }),

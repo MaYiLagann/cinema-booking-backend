@@ -9,4 +9,8 @@ export class CinemaTicketService {
     @InjectRepository(CinemaTicket)
     private cinemaTicketRepository: Repository<CinemaTicket>,
   ) {}
+
+  async getAll(): Promise<CinemaTicket[]> {
+    return this.cinemaTicketRepository.find();
+  }
 }

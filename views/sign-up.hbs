@@ -53,7 +53,6 @@
     });
 
     if (res.ok) {
-      setCookie('token', (await res.json())['token'], 86400000)
       alert('Succeeded to sign-up');
 
       location.href = '/';
@@ -61,13 +60,6 @@
       alert('Failed to sign-up');
     }
   };
-
-  function setCookie(name, value, lifetime) {
-    const d = new Date();
-    d.setTime(d.getTime() + lifetime);
-    let expires = 'expires=' + d.toUTCString();
-    document.cookie = name + '=' + value + ';' + expires + ';path=/';
-  }
 </script>
 </body>
 </html>

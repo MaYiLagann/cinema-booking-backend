@@ -14,9 +14,73 @@
 <div class="container pt-2 pt-md-5">
   <h1>Booking</h1>
   <p>Choose your seat.</p>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="row mb-3">
+        <div class="col-12">
+          <div class="w-100 badge badge-secondary py-1">Screen</div>
+        </div>
+      </div>
+      <div class="row">
+        {{#each list}}
+          <div class="col-1 mb-2">
+            {{#if this.is_empty}}
+              <button onclick="onClick('{{this.seat_name}}', {{this.cinema_id}}, {{this.seat_id}})" type="button"
+                      class="btn btn-primary w-100 my-1">{{seat_name}}</button>
+            {{else}}
+              <button type="button" class="btn btn-secondary w-100 my-1" disabled>{{seat_name}}</button>
+            {{/if}}
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
+  async function onClick(tname, cid, sid) {
+    if (!confirm(`Are you sure reserve ${tname} seat?`)) return;
+
+    const res = await fetch('/cinema/ticket', {
+      method: 'POST',
+      cache: 'no-cache',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getCookie('token')}`,
+      },
+      redirect: 'manual',
+      body: JSON.stringify({
+        cinema_id: cid,
+        seat_id: sid,
+      }),
+    });
+
+    if (res.ok) {
+      alert(`Succeeded to reserve ticket ${tname}`);
+
+      location.reload();
+    } else {
+      alert(`Failed to reserve ticket ${tname}`);
+    }
+  }
+
+  function getCookie(cname) {
+    const name = cname + '=';
+    const decodedCookie = decodeURIComponent(document.cookie);
+    const ca = decodedCookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) === ' ') {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) === 0) {
+        return c.substring(name.length, c.length);
+      }
+    }
+    return '';
+  }
 </script>
 </body>
 </html>

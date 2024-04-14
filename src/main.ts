@@ -21,6 +21,11 @@ async function bootstrap() {
 
   // Start application.
   await app.listen(configService.get('app.port'));
+
+  if (module['hot']) {
+    module['hot'].accept();
+    module['hot'].dispose(() => app.close());
+  }
 }
 
 void bootstrap();

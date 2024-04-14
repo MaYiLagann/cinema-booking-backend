@@ -24,7 +24,7 @@ export class CinemaTicket {
 
   @Column()
   @Index()
-  seat_id: string;
+  seat_id: number;
 
   @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })

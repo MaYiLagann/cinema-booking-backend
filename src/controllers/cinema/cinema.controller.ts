@@ -54,31 +54,40 @@ export class CinemaController {
     try {
       const payload = req['token_payload'] as UserTokenPayload;
 
-      await this.cinemaTicketService.transaction(async (entityManager) => {
-        let ticket = await entityManager.findOne(CinemaTicket, {
-          transaction: true,
-          where: {
-            cinema_id: body.cinema_id,
-            seat_id: body.seat_id,
-          },
-          lock: {
-            mode: 'pessimistic_write',
-          },
-        });
+      const ticket = await this.cinemaTicketService.transaction(
+        async (entityManager) => {
+          let ticket = await entityManager.findOne(CinemaTicket, {
+            transaction: true,
+            where: {
+              cinema_id: body.cinema_id,
+              seat_id: body.seat_id,
+            },
+            lock: {
+              mode: 'pessimistic_write',
+            },
+          });
 
-        if (ticket) return null;
+          if (ticket) return null;
 
-        ticket = entityManager.create(CinemaTicket);
-        ticket.cinema_id = body.cinema_id;
-        ticket.seat_id = body.seat_id;
-        ticket.user = { id: payload.id } as User;
-        await entityManager.save(ticket);
+          ticket = entityManager.create(CinemaTicket);
+          ticket.cinema_id = body.cinema_id;
+          ticket.seat_id = body.seat_id;
+          ticket.user = { id: payload?.id ?? 1 } as User;
+          await entityManager.save(ticket);
 
-        return ticket;
-      });
+          return ticket;
+        },
+      );
+
+      if (ticket) {
+        res.status(HttpStatus.OK);
+        response.ticket_id = ticket.id;
+      } else {
+        res.status(HttpStatus.BAD_REQUEST);
+      }
     } catch (err) {
+      console.error(err);
       res.status(HttpStatus.INTERNAL_SERVER_ERROR);
-      return response;
     }
 
     return response;

@@ -48,9 +48,13 @@ export class CinemaController {
       return response;
     }
 
-    try {
-      const payload = req['token_payload'] as UserTokenPayload;
+    const payload = req['token_payload'] as UserTokenPayload;
+    if (!payload) {
+      res.status(HttpStatus.UNAUTHORIZED);
+      return response;
+    }
 
+    try {
       const ticket = await this.cinemaTicketService.transaction(
         async (entityManager) => {
           let ticket = await entityManager.findOne(CinemaTicket, {
@@ -69,7 +73,7 @@ export class CinemaController {
           ticket = entityManager.create(CinemaTicket);
           ticket.cinema_id = body.cinema_id;
           ticket.seat_id = body.seat_id;
-          ticket.user = { id: payload?.id ?? 1 } as User;
+          ticket.user = { id: payload.id } as User;
           await entityManager.save(ticket);
 
           return ticket;
